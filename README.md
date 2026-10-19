@@ -1,6 +1,6 @@
 # sports-image-sorter
 
-[![CI](https://github.com/nematatu/sports-image-sorter/actions/workflows/ci.yml/badge.svg)](https://github.com/nematatu/sports-image-sorter/actions/workflows/ci.yml)
+[![CI](https://github.com/nematatu/sports-image-sorter-local/actions/workflows/ci.yml/badge.svg)](https://github.com/nematatu/sports-image-sorter-local/actions/workflows/ci.yml)
 
 Classify sports photos into per-sport folders with local-first vision engines,
 a review UI for corrections, and a copy-only export that never touches the
@@ -41,7 +41,7 @@ Requirements: Python 3.10+, Pillow. The neural engines also need the optional
 first use). Apple Vision requires macOS with the Xcode Command Line Tools.
 
 ```bash
-git clone https://github.com/nematatu/sports-image-sorter.git
+git clone https://github.com/nematatu/sports-image-sorter-local.git
 cd sports-image-sorter
 
 python3 -m venv .venv
