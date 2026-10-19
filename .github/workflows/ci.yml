@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.13"]
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install core + tests (no torch)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Compile
+        run: |
+          python -m compileall -q sports_sorter scripts tests
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Repository hygiene
+        run: |
+          if git ls-files | grep -E -i '\.(jpe?g|png|webp|heic|heif|tiff?|bmp|gif|avif|dng|raw|mp4|mov)$'; then
+            echo "::error::Image/media files must not be committed."
+            exit 1
+          fi
+          if git ls-files | grep -E '(^|/)\.env$|(^|/)data/sports\.db$'; then
+            echo "::error::Secrets or the local database must not be committed."
+            exit 1
+          fi

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sports Image Sorter - Review</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>Sports Image Sorter</h1>
+      <span class="muted">local review</span>
+    </div>
+    <div id="summary" class="summary"></div>
+  </header>
+
+  <section class="controls">
+    <input id="search" type="search" placeholder="ファイル名で絞り込み（任意）" autocomplete="off" />
+    <select id="label-filter"><option value="">すべての競技</option></select>
+    <select id="only-filter">
+      <option value="">すべて</option>
+      <option value="unclassified">未分類のみ</option>
+      <option value="disagreement">判定不一致のみ</option>
+      <option value="unreviewed">未レビューのみ</option>
+    </select>
+    <select id="engine-filter"><option value="">表示: 最終判定</option></select>
+    <select id="page-size">
+      <option value="60">60 / ページ</option>
+      <option value="120">120 / ページ</option>
+      <option value="200">200 / ページ</option>
+    </select>
+    <button id="reload" class="ghost">更新</button>
+  </section>
+
+  <section class="bulkbar" id="bulkbar">
+    <label class="check"><input type="checkbox" id="select-all" /> 全選択</label>
+    <span id="selection-count">0 件選択</span>
+    <select id="bulk-label"></select>
+    <button id="bulk-apply" class="primary" disabled>一括修正</button>
+    <button id="bulk-clear" class="ghost" disabled>選択解除</button>
+  </section>
+
+  <main>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden>該当する画像がありません。</div>
+    <nav class="pager">
+      <button id="prev" class="ghost">← 前へ</button>
+      <span id="page-info" class="muted"></span>
+      <button id="next" class="ghost">次へ →</button>
+    </nav>
+  </main>
+
+  <dialog id="detail">
+    <div class="detail-body">
+      <button id="detail-close" class="ghost close">✕</button>
+      <div class="detail-image"><img id="detail-img" alt="" /></div>
+      <div class="detail-side">
+        <h2 id="detail-name"></h2>
+        <p id="detail-meta" class="muted"></p>
+        <div id="detail-votes" class="votes"></div>
+        <h3>この画像の競技</h3>
+        <div id="detail-labels" class="label-buttons"></div>
+        <p class="hint">クリックしたラベルが「正解」として保存され、モデルの判定より優先されます。</p>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

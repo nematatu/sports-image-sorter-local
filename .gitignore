@@ -1,0 +1,76 @@
+# --- Never commit user data, images or results -------------------------------
+# Real photos / thumbnails / copies of personal media
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.heic
+*.heif
+*.gif
+*.bmp
+*.tif
+*.tiff
+*.avif
+*.dng
+*.raw
+*.mp4
+*.mov
+
+# Runtime data produced by the tool (DB, thumbnails, exports, reports)
+data/
+out/
+output/
+cache/
+thumbs/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+exports.json
+manifest.json
+review_state.json
+labels.csv
+ground_truth.json
+predictions*.json
+report*.json
+report*.md
+
+# --- Secrets -----------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets/
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- OS / editors ------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+.idea/
+.vscode/
+*.swp
+
+# --- Local model caches (keep them out of the repo) --------------------------
+.models/
+model_cache/
+
+# --- Local overrides ---------------------------------------------------------
+config.local.json

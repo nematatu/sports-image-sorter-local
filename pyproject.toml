@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sports-image-sorter"
+version = "0.1.0"
+description = "Classify and sort sports photos into per-sport folders using pluggable, local-first vision engines."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "nematatu" }]
+keywords = ["image-classification", "sports", "clip", "siglip", "apple-vision", "cli"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Graphics :: Graphics Conversion",
+]
+
+# Core install: the CLI, the SQLite store, the exporter, the review UI and the
+# Apple Vision engine (no extra Python dependency) all work with this alone.
+dependencies = ["pillow>=10.0"]
+
+[project.optional-dependencies]
+# Local neural engines (CLIP / SigLIP zero-shot, Sports-100 ViT, ...).
+local = ["torch>=2.2", "numpy>=1.24", "transformers>=4.40"]
+# Cloud engines (opt-in, require explicit approval + API keys).
+cloud = []
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[project.scripts]
+sports-sorter = "sports_sorter.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/nematatu/sports-image-sorter"
+
+[tool.setuptools]
+packages = [
+  "sports_sorter",
+  "sports_sorter.engines",
+]
+
+[tool.setuptools.package-data]
+sports_sorter = ["web/*", "tools/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+  "needs_torch: test requires the optional 'local' extra",
+  "needs_macos: test requires macOS frameworks",
+]
