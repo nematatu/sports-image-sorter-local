@@ -131,6 +131,45 @@ Image order is the database id; filenames and paths are intentionally omitted.
 Reviewing these two is the intended workflow: the confidence is displayed, and
 a human correction in `review` overrides the model at export time.
 
+## Separate cloud comparison: Gemini 3.8 Flash
+
+After the local-only reference run, a second run was explicitly approved to
+send the same 23 private images to Google's Gemini API. It used
+`gemini-3.8-flash` through the existing `gemini` engine and was evaluated
+against the same gold labels. It was **not** added to fusion.
+
+| metric | local fusion | Gemini 3.8 Flash |
+|---|---:|---:|
+| correct | 21/23 | 21/23 |
+| accuracy | 91.3% | 91.3% |
+| 95% Wilson CI | 73.2–97.6% | 73.2–97.6% |
+| macro F1 | 0.680 | **0.724** |
+| total inference time* | 44.6 s for all six engines | 137.5 s |
+| per-image time | 1.94 s (six engines) | 5.98 s |
+| API cost | $0 | provider billing; usage metadata not captured |
+
+The errors were different:
+
+- Gemini: unclassified -> volleyball (0.88) and unclassified -> badminton
+  (0.98). It got every image with an actual sport correct, but had **zero
+  recall on `未分類`**.
+- Local fusion: unclassified -> table tennis (0.521) and badminton -> tennis
+  (0.477).
+
+\* Engine wall time from the run ledger; model download/load is excluded. The
+local number is the sum of six separate engine runs, so process startup and
+model loading would add to an end-to-end wall-clock measurement.
+
+This is a real trade-off rather than a clean win. Gemini was better at the
+sport-vs-sport boundary but confidently forced both ceremony/portrait images
+into a sport folder, which violates the project's conservative `未分類` policy.
+For a workflow where a human reviews every image, Gemini's higher macro F1 may
+be preferable; for unattended safety, local fusion's abstain behavior is
+preferable.
+
+Gemini 2.5 Flash was retired for new API users and returned HTTP 404; the
+engine default is now `gemini-3.8-flash`, overridable with `GEMINI_MODEL`.
+
 ## What was exported
 
 All 23 images received human labels, so `export` used **human label > fusion >

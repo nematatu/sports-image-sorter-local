@@ -144,9 +144,14 @@ set. Fusion simply ignores engines that are absent or weight 0.
 ## Cloud engines (opt-in, unverified)
 
 `gemini`, `openai`, and `jev` are implemented to show that the pipeline is
-provider-agnostic. They were **not executed** for the reference run. There was
-no approval to upload private photos and no API key was used, so their accuracy
-and cost are unknown.
+provider-agnostic. They were **not executed** for the original reference run.
+There was no approval to upload private photos and no API key was used, so that
+evaluation did not measure their accuracy or cost. A later, separately approved
+local-vs-Gemini comparison used `gemini-3.8-flash`; its results are recorded in
+the project's private run data, not in this repository's distributed fixtures.
+
+The Gemini default is `gemini-3.8-flash`; override it with `GEMINI_MODEL`.
+Gemini 2.5 Flash was retired for new users and returns HTTP 404.
 
 Every cloud engine requires:
 

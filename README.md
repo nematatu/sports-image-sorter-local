@@ -156,8 +156,11 @@ limitations.
 | `jev` | cloud choice model | cloud gates + `TYPESAFE_DANGER_ZONE_IMAGES=1` | **yes** | 0 (not run) |
 | `fake` | deterministic stub | none | no | 0 (tests only) |
 
-Cloud engines were **not executed** for the reference run: there was no approval
-to upload private photos and no API key was used. Total API cost: **$0**.
+The original reference run was **local-only**: no cloud engine was enabled and
+no image was uploaded. A later, separately approved comparison used Gemini 3.8
+Flash on the same private 23 images; it tied fusion at 21/23 but had a higher
+macro F1 (0.724 vs 0.680) and was much slower. That comparison is not part of
+the default pipeline or the committed fixtures.
 
 Details, model IDs, and how to add an engine: [docs/engines.md](docs/engines.md).
 
@@ -268,7 +271,8 @@ docs/                   engine, evaluation and safety documentation
   and heavily cropped action shots may need review.
 - Sports-100 and SportsNet-7 have fixed label sets that only partially overlap
   the default taxonomy; their votes are intentionally low-weight.
-- Cloud engines are implemented but unverified in this release.
+- Gemini 3.8 Flash was exercised in one private 23-image comparison; OpenAI and
+  Jev remain implemented but unverified.
 - The tool copies files; it does not rename, deduplicate, or delete them.
 
 ## License
